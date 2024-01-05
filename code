@@ -1,0 +1,29 @@
+import discord
+from discord.ext import commands
+
+PREFIX = "-"
+TOKEN = "MTEzOTM5Mzc0NTYyMDU4MjQzMA.GcC-c9.hrRq9Nbd_p01PhQ96xKwUKp_oM72jJD3zU1EMw"
+
+bot = commands.bot(command_prefix= PREFIX, self_bot=True)
+
+@bot.event
+async def on_ready():
+	print(f"Logged in as: {bot.user.name}")
+	
+@bot.command()
+async def check(ctx):
+	await ctx.send("Venus Is Online.")
+	
+@bot.command()
+async def spam(ctx, message: str, count: int, delay: float):
+	sentmessages = 0
+	for i in range(count):
+		sentmessages += 1
+		print(f"Message {message} sent {sentmessages}/(count)")
+		time.sleep(delay)
+		await ctx.send(message)
+		
+		
+		
+	
+bot.run(TOKEN, bot=False)
