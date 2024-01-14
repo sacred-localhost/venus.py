@@ -8,7 +8,7 @@ class PantyDealSpider(scrapy.Spider):
         usernames = response.css('.username::text').extract()
 
         # Write usernames to a text file
-        with open('scraped_usernames.txt', 'w') as file:
+        with open('users.txt', 'w') as file:
             for username in usernames:
                 file.write(username + '\n')
 
