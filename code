@@ -1,29 +1,16 @@
-import discord
-from discord.ext import commands
+import scrapy
 
-PREFIX = "-"
-TOKEN = "MTEzOTM5Mzc0NTYyMDU4MjQzMA.GcC-c9.hrRq9Nbd_p01PhQ96xKwUKp_oM72jJD3zU1EMw"
+class PantyDealSpider(scrapy.Spider):
+    name = 'pantydealspider'
+    start_urls = ['https://pantydeal.com/']
 
-bot = commands.bot(command_prefix= PREFIX, self_bot=True)
+    def parse(self, response):
+        usernames = response.css('.username::text').extract()
 
-@bot.event
-async def on_ready():
-	print(f"Logged in as: {bot.user.name}")
-	
-@bot.command()
-async def check(ctx):
-	await ctx.send("Venus Is Online.")
-	
-@bot.command()
-async def spam(ctx, message: str, count: int, delay: float):
-	sentmessages = 0
-	for i in range(count):
-		sentmessages += 1
-		print(f"Message {message} sent {sentmessages}/(count)")
-		time.sleep(delay)
-		await ctx.send(message)
-		
-		
-		
-	
-bot.run(TOKEN, bot=False)
+        # Write usernames to a text file
+        with open('scraped_usernames.txt', 'w') as file:
+            for username in usernames:
+                file.write(username + '\n')
+
+        self.log('Usernames saved to scraped_usernames.txt')
+        yield {'usernames': usernames}
